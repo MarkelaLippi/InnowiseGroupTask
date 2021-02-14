@@ -1,6 +1,6 @@
 package com.gmail.roadtojob2019.task.impl;
 
-import com.gmail.roadtojob2019.task.Printer;
+import com.gmail.roadtojob2019.task.interfaces.Printer;
 
 public class PrinterImpl implements Printer {
     @Override

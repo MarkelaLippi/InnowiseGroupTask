@@ -6,6 +6,7 @@ public enum Role {
     private int level;
 
     Role(int level) {
+        this.level=level;
     }
 
     public int getLevel() {
