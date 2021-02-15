@@ -111,23 +111,28 @@ public class UserCreatorImpl implements UserCreator {
 
                 if (n == 2) {
                     int checksum = 0;
-                    final Role firstUserRole = roles.stream().findFirst().get();
+                    final Role firstUserRole = roles.stream()
+                            .findFirst()
+                            .get();
                     checksum += firstUserRole.getLevel();
                     checksum += role.getLevel();
                     if (firstUserRole.getLevel() == role.getLevel() || checksum > 3) {
                         printer.print("The role you entered is not level-compatible with the previous one. Please try again.");
-                        continue;
+                        roleNumber = 0;
                     }
                 }
-                roles.add(role);
             } while (roleNumber < 1 || roleNumber > Role.values().length);
+
+            roles.add(role);
 
             if (role.getLevel() == 3) {
                 break;
             }
 
-            if (n < 2) {
-                if (abortProcess()) break;
+            if (n == 1) {
+                if (abortProcess()) {
+                    break;
+                }
             }
         }
         return roles;
