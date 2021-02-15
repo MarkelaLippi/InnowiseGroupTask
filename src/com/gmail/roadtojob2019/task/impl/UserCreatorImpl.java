@@ -95,19 +95,19 @@ public class UserCreatorImpl implements UserCreator {
                     continue;
                 }
 
-                if (roleNumber < 1 || roleNumber > Role.values().length) {
+                try {
+                    role = switch (roleNumber) {
+                        case 1 -> Role.USER;
+                        case 2 -> Role.CUSTOMER;
+                        case 3 -> Role.ADMIN;
+                        case 4 -> Role.PROVIDER;
+                        case 5 -> Role.SUPER_ADMIN;
+                        default -> throw new IllegalStateException();
+                    };
+                } catch (IllegalStateException e) {
                     printer.print("The number you entered is outside the allowed values. Enter a number from 1 to 5.");
                     continue;
                 }
-
-                role = switch (roleNumber) {
-                    case 1 -> Role.USER;
-                    case 2 -> Role.CUSTOMER;
-                    case 3 -> Role.ADMIN;
-                    case 4 -> Role.PROVIDER;
-                    case 5 -> Role.SUPER_ADMIN;
-                    default -> throw new IllegalStateException("Unexpected value: " + roleNumber);
-                };
 
                 if (n == 2) {
                     int checksum = 0;
