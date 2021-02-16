@@ -1,11 +1,12 @@
 package com.gmail.roadtojob2019.task.entity;
 
+import java.io.Serializable;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class User {
+public class User implements Serializable {
     private String name;
     private String surname;
     private String email;

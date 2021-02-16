@@ -43,11 +43,6 @@ public class UserCreatorImpl implements UserCreator {
         printer.print("Press '5' to select 'SUPER_ADMIN(l.3)'");
         Set<Role> roles = getValidUserRoles();
         builder.withRoles(roles);
-
-
-        System.out.println(builder.build());
-
-
         return builder.build();
     }
 
