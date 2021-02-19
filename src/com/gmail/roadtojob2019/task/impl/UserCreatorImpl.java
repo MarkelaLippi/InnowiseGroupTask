@@ -138,10 +138,7 @@ public class UserCreatorImpl implements UserCreator {
         printer.print("If 'YES', enter any character except 'n'");
         printer.print("If 'NO', enter 'n'");
         final String answer = reader.read();
-        if (answer.equals("n")) {
-            return true;
-        }
-        return false;
+        return answer.equals("n");
     }
 }
 
