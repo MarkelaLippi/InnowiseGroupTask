@@ -27,6 +27,7 @@ public class ModifierImpl implements UserModifier {
     @Override
     public User modify(User user) {
         int field = 0;
+        boolean flag=true;
         do {
             printer.print("Select the field you want to change.");
             printer.print("Press '1' to select 'name'");
@@ -38,23 +39,42 @@ public class ModifierImpl implements UserModifier {
                 field = Integer.parseInt(reader.read());
             } catch (NumberFormatException e) {
                 printer.print("The data you entered is in the wrong format.");
+                continue;
             }
+
+            if(field < 1 || field > 5) {
+                printer.print("The number you entered is outside the allowed values. Enter a number from 1 to 5.");
+                continue;
+            }
+
             switch (field) {
                 case 1 -> {
                     printer.print("Enter the user's name");
                     user.setName(reader.read());
+                    if(abortSelectionProcess()){
+                        flag=false;
+                    }
                 }
                 case 2 -> {
                     printer.print("Enter the user's surname");
                     user.setSurname(reader.read());
+                    if(abortSelectionProcess()){
+                        flag=false;
+                    }
                 }
                 case 3 -> {
                     printer.print("Enter the user's email");
                     user.setEmail(getValidUserEmail());
+                    if(abortSelectionProcess()){
+                        flag=false;
+                    }
                 }
                 case 4 -> {
                     printer.print("Enter the user's phones (min=1, max=3)");
                     user.setPhones(getValidUserPhones());
+                    if(abortSelectionProcess()){
+                        flag=false;
+                    }
                 }
                 case 5 -> {
                     printer.print("Enter the user's roles (min=1, max=2)");
@@ -64,10 +84,12 @@ public class ModifierImpl implements UserModifier {
                     printer.print("Press '4' to select 'PROVIDER(l.2)'");
                     printer.print("Press '5' to select 'SUPER_ADMIN(l.3)'");
                     user.setRoles(getValidUserRoles());
+                    if(abortSelectionProcess()){
+                        flag=false;
+                    }
                 }
             }
-
-        } while (field < 1 || field > 5);
+        } while (flag);
         return user;
     }
 
@@ -95,7 +117,7 @@ public class ModifierImpl implements UserModifier {
             } while (!phoneValidator.validate(phone));
             phones.add(phone);
             if (n < 3) {
-                if (abortProcess()) break;
+                if (abortAddingProcess()) break;
             }
         }
         return phones;
@@ -150,7 +172,7 @@ public class ModifierImpl implements UserModifier {
             }
 
             if (n == 1) {
-                if (abortProcess()) {
+                if (abortAddingProcess()) {
                     break;
                 }
             }
@@ -158,8 +180,16 @@ public class ModifierImpl implements UserModifier {
         return roles;
     }
 
-    private boolean abortProcess() {
+    private boolean abortAddingProcess() {
         printer.print("Do you want to add more? (YES/NO)");
+        printer.print("If 'YES', enter any character except 'n'");
+        printer.print("If 'NO', enter 'n'");
+        final String answer = reader.read();
+        return answer.equals("n");
+    }
+
+    private boolean abortSelectionProcess() {
+        printer.print("Do you want to change another field? (YES/NO)");
         printer.print("If 'YES', enter any character except 'n'");
         printer.print("If 'NO', enter 'n'");
         final String answer = reader.read();

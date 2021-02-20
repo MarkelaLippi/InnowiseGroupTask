@@ -4,20 +4,20 @@ import com.gmail.roadtojob2019.task.entity.Role;
 import com.gmail.roadtojob2019.task.entity.User;
 import com.gmail.roadtojob2019.task.interfaces.Printer;
 import com.gmail.roadtojob2019.task.interfaces.Reader;
-import com.gmail.roadtojob2019.task.interfaces.UserCreator;
+import com.gmail.roadtojob2019.task.interfaces.Creator;
 import com.gmail.roadtojob2019.task.interfaces.Validator;
 
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
-public class UserCreatorImpl implements UserCreator {
+public class CreatorImpl implements Creator {
     private final Printer printer;
     private final Reader reader;
     private final Validator phoneValidator;
     private final Validator emailValidator;
 
-    public UserCreatorImpl(Printer printer, Reader reader, Validator phoneValidator, Validator emailValidator) {
+    public CreatorImpl(Printer printer, Reader reader, Validator phoneValidator, Validator emailValidator) {
         this.printer = printer;
         this.reader = reader;
         this.phoneValidator = phoneValidator;
