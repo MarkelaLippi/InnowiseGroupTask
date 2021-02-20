@@ -2,7 +2,7 @@ package com.gmail.roadtojob2019.task.impl;
 
 import com.gmail.roadtojob2019.task.entity.Role;
 import com.gmail.roadtojob2019.task.entity.User;
-import com.gmail.roadtojob2019.task.interfaces.UserModifier;
+import com.gmail.roadtojob2019.task.interfaces.Modifier;
 import com.gmail.roadtojob2019.task.interfaces.Printer;
 import com.gmail.roadtojob2019.task.interfaces.Reader;
 import com.gmail.roadtojob2019.task.interfaces.Validator;
@@ -11,7 +11,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ModifierImpl implements UserModifier {
+public class ModifierImpl implements Modifier {
     private final Printer printer;
     private final Reader reader;
     private final Validator phoneValidator;
@@ -27,7 +27,7 @@ public class ModifierImpl implements UserModifier {
     @Override
     public User modify(User user) {
         int field = 0;
-        boolean flag=true;
+        boolean flag = true;
         do {
             printer.print("Select the field you want to change.");
             printer.print("Press '1' to select 'name'");
@@ -42,7 +42,7 @@ public class ModifierImpl implements UserModifier {
                 continue;
             }
 
-            if(field < 1 || field > 5) {
+            if (field < 1 || field > 5) {
                 printer.print("The number you entered is outside the allowed values. Enter a number from 1 to 5.");
                 continue;
             }
@@ -51,29 +51,29 @@ public class ModifierImpl implements UserModifier {
                 case 1 -> {
                     printer.print("Enter the user's name");
                     user.setName(reader.read());
-                    if(abortSelectionProcess()){
-                        flag=false;
+                    if (abortSelectionProcess()) {
+                        flag = false;
                     }
                 }
                 case 2 -> {
                     printer.print("Enter the user's surname");
                     user.setSurname(reader.read());
-                    if(abortSelectionProcess()){
-                        flag=false;
+                    if (abortSelectionProcess()) {
+                        flag = false;
                     }
                 }
                 case 3 -> {
                     printer.print("Enter the user's email");
                     user.setEmail(getValidUserEmail());
-                    if(abortSelectionProcess()){
-                        flag=false;
+                    if (abortSelectionProcess()) {
+                        flag = false;
                     }
                 }
                 case 4 -> {
                     printer.print("Enter the user's phones (min=1, max=3)");
                     user.setPhones(getValidUserPhones());
-                    if(abortSelectionProcess()){
-                        flag=false;
+                    if (abortSelectionProcess()) {
+                        flag = false;
                     }
                 }
                 case 5 -> {
@@ -84,8 +84,8 @@ public class ModifierImpl implements UserModifier {
                     printer.print("Press '4' to select 'PROVIDER(l.2)'");
                     printer.print("Press '5' to select 'SUPER_ADMIN(l.3)'");
                     user.setRoles(getValidUserRoles());
-                    if(abortSelectionProcess()){
-                        flag=false;
+                    if (abortSelectionProcess()) {
+                        flag = false;
                     }
                 }
             }
@@ -117,7 +117,9 @@ public class ModifierImpl implements UserModifier {
             } while (!phoneValidator.validate(phone));
             phones.add(phone);
             if (n < 3) {
-                if (abortAddingProcess()) break;
+                if (abortAddingProcess()) {
+                    break;
+                }
             }
         }
         return phones;
