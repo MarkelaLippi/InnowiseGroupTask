@@ -1,4 +1,4 @@
-package com.gmail.roadtojob2019.task.impl;
+package com.gmail.roadtojob2019.task.service;
 
 import com.gmail.roadtojob2019.task.entity.User;
 import com.gmail.roadtojob2019.task.interfaces.Extractor;
@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Map;
 
-public class ExtractorImpl implements Extractor<String, User> {
+public class UserExtractor implements Extractor<String, User> {
     private Map<String, User> storage;
     private final Printer<String> printer;
 
-    public ExtractorImpl(Map<String, User> storage, Printer<String> printer) {
+    public UserExtractor(Map<String, User> storage, Printer<String> printer) {
         this.storage = storage;
         this.printer = printer;
     }

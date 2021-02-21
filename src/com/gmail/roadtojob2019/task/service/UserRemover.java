@@ -1,5 +1,6 @@
-package com.gmail.roadtojob2019.task.impl;
+package com.gmail.roadtojob2019.task.service;
 
+import com.gmail.roadtojob2019.task.entity.User;
 import com.gmail.roadtojob2019.task.interfaces.Printer;
 import com.gmail.roadtojob2019.task.interfaces.Remover;
 
@@ -8,17 +9,17 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Map;
 
-public class RemoverImpl<K,V> implements Remover<K> {
-    private final Map<K,V> storage;
+public class UserRemover implements Remover<String> {
+    private final Map<String, User> storage;
     private final Printer<String> printer;
 
-    public RemoverImpl(Map<K, V> storage, Printer<String> printer) {
+    public UserRemover(Map<String, User> storage, Printer<String> printer) {
         this.storage = storage;
         this.printer = printer;
     }
 
     @Override
-    public boolean remove(K key) {
+    public boolean remove(String key) {
         if(storage.remove(key)==null){
             return false;
         };

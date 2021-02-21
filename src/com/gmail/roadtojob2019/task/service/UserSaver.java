@@ -1,4 +1,4 @@
-package com.gmail.roadtojob2019.task.impl;
+package com.gmail.roadtojob2019.task.service;
 
 import com.gmail.roadtojob2019.task.entity.User;
 import com.gmail.roadtojob2019.task.interfaces.Printer;
@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Map;
 
-public class SaverImpl implements Saver<User> {
+public class UserSaver implements Saver<User> {
     private final Map<String, User> storage;
     private final Printer<String> printer;
 
-    public SaverImpl(Map<String, User> storage, Printer<String> printer) {
+    public UserSaver(Map<String, User> storage, Printer<String> printer) {
         this.storage = storage;
         this.printer = printer;
     }

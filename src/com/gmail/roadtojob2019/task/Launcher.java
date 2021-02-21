@@ -1,24 +1,23 @@
 package com.gmail.roadtojob2019.task;
 
 import com.gmail.roadtojob2019.task.entity.User;
-import com.gmail.roadtojob2019.task.impl.*;
+import com.gmail.roadtojob2019.task.service.*;
 import com.gmail.roadtojob2019.task.interfaces.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Launcher {
-    public static void main(String[] args) throws Exception {
-        final Printer<String> printer = new PrinterImpl<>();
-        final Reader<String> reader = new ReaderImpl(printer);
-        final Validator<String> phoneValidator = new PhoneValidator();
-        final Validator<String> emailValidator = new EmailValidator();
-        final Creator<User> userCreator = new CreatorImpl(printer, reader, phoneValidator, emailValidator);
+    public static void main(String[] args) {
+        final Printer<String> printer = new ConsolePrinter<>();
+        final Reader<String> reader = new ConsoleReader(printer);
+        final Validator<String, String> validator = new UserValidator();
+        final Creator<User> creator = new UserCreator(printer, reader, validator);
         final Map<String, User> storage = new HashMap<>();
-        final Saver<User> userSaver = new SaverImpl(storage, printer);
-        final Extractor<String, User> userExtractor = new ExtractorImpl(storage, printer);
-        final Modifier<User> userModifier = new ModifierImpl(printer, reader, phoneValidator, emailValidator);
-        final Remover<String> userRemover = new RemoverImpl<>(storage, printer);
+        final Saver<User> saver = new UserSaver(storage, printer);
+        final Extractor<String, User> extractor = new UserExtractor(storage, printer);
+        final Modifier<User> modifier = new UserModifier(printer, reader, validator);
+        final Remover<String> remover = new UserRemover(storage, printer);
         int menuItem = 0;
         do {
             printer.print("");
@@ -32,6 +31,7 @@ public class Launcher {
             printer.print("Press '4' to display information about the user on the console");
             printer.print("Press '5' to display information about all users on the console");
             printer.print("Enter 'exit' to quit the application");
+
             final String inputResult = reader.read();
             if (inputResult.equals("exit")) {
                 break;
@@ -45,45 +45,47 @@ public class Launcher {
 
             switch (menuItem) {
                 case 1 -> {
-                    final User newUser = (User) userCreator.create();
-                    userSaver.save(newUser);
+                    final User newUser = creator.create();
+                    saver.save(newUser);
+                    printer.print("The user is successfully created.");
                 }
                 case 2 -> {
-                    printer.print("Enter the email of the user you want to change");
+                    printer.print("Enter the email of the user you want to change.");
                     final String email = reader.read();
-                    final User extractedUser = userExtractor.extract(email);
+                    final User extractedUser = extractor.extract(email);
                     if (extractedUser == null) {
-                        printer.print("The user with the email " + email + " was not detected in the storage");
+                        printer.print("The user with the email " + email + " was not detected in the storage.");
                         break;
                     }
-                    final User modifiedUser = userModifier.modify(extractedUser);
-                    userSaver.save(modifiedUser);
+                    final User modifiedUser = modifier.modify(extractedUser);
+                    saver.save(modifiedUser);
                 }
                 case 3 -> {
-                    printer.print("Enter the user's email");
+                    printer.print("Enter the user's email.");
                     final String email = reader.read();
-                    if (userRemover.remove(email)) {
-                        printer.print("The user with the email " + email + " was deleted");
+                    if (remover.remove(email)) {
+                        printer.print("The user with the email " + email + " was deleted.");
                     } else {
-                        printer.print("The user with the email " + email + " was not detected in the storage");
+                        printer.print("The user with the email " + email + " was not detected in the storage.");
                     }
-                    ;
                 }
                 case 4 -> {
-                    printer.print("Enter the email of the user you want to display on the console");
+                    printer.print("Enter the email of the user you want to display on the console.");
                     final String email = reader.read();
-                    final User extractedUser = userExtractor.extract(email);
+                    final User extractedUser = extractor.extract(email);
                     if (extractedUser == null) {
-                        printer.print("The user with the email " + email + " was not detected in the storage");
+                        printer.print("The user with the email " + email + " was not detected in the storage.");
                         break;
                     }
                     printer.print(extractedUser.toString());
                 }
                 case 5 -> {
                     if (storage.isEmpty()) {
-                        printer.print("Storage is empty. Create at least one user");
+                        printer.print("Storage is empty. Create at least one user.");
                     } else {
-                        printer.print(storage.toString());
+                        for (User user : storage.values()) {
+                            printer.print(user.toString());
+                        }
                     }
                 }
             }

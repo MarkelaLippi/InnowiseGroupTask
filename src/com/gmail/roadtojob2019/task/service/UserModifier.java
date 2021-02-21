@@ -1,4 +1,4 @@
-package com.gmail.roadtojob2019.task.impl;
+package com.gmail.roadtojob2019.task.service;
 
 import com.gmail.roadtojob2019.task.entity.Role;
 import com.gmail.roadtojob2019.task.entity.User;
@@ -11,17 +11,17 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ModifierImpl implements Modifier<User> {
+import static com.gmail.roadtojob2019.task.util.Pattern.*;
+
+public class UserModifier implements Modifier<User> {
     private final Printer<String> printer;
     private final Reader<String> reader;
-    private final Validator<String> phoneValidator;
-    private final Validator<String> emailValidator;
+    private final Validator<String,String> validator;
 
-    public ModifierImpl(Printer<String> printer, Reader<String> reader, Validator<String> phoneValidator, Validator<String> emailValidator) {
+    public UserModifier(Printer<String> printer, Reader<String> reader, Validator<String, String> validator) {
         this.printer = printer;
         this.reader = reader;
-        this.phoneValidator = phoneValidator;
-        this.emailValidator = emailValidator;
+        this.validator = validator;
     }
 
     @Override
@@ -97,10 +97,10 @@ public class ModifierImpl implements Modifier<User> {
         String email;
         do {
             email = reader.read();
-            if (!emailValidator.validate(email)) {
+            if (!validator.validate(email,EMAIL_PATTERN)) {
                 printer.print("The email you entered has an incorrect format. Please try again.");
             }
-        } while (!emailValidator.validate(email));
+        } while (!validator.validate(email,EMAIL_PATTERN));
         return email;
     }
 
@@ -111,10 +111,10 @@ public class ModifierImpl implements Modifier<User> {
             do {
                 printer.print("Enter the phone № " + n);
                 phone = reader.read();
-                if (!phoneValidator.validate(phone)) {
+                if (!validator.validate(phone, PHONE_PATTERN)) {
                     printer.print("The phone number you entered has an incorrect format. Please try again.");
                 }
-            } while (!phoneValidator.validate(phone));
+            } while (!validator.validate(phone, PHONE_PATTERN));
             phones.add(phone);
             if (n < 3) {
                 if (abortAddingProcess()) {
