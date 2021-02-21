@@ -13,11 +13,11 @@ public class Launcher {
         final Reader<String> reader = new ReaderImpl(printer);
         final Validator<String> phoneValidator = new PhoneValidator();
         final Validator<String> emailValidator = new EmailValidator();
-        final Creator userCreator = new CreatorImpl(printer, reader, phoneValidator, emailValidator);
+        final Creator<User> userCreator = new CreatorImpl(printer, reader, phoneValidator, emailValidator);
         final Map<String, User> storage = new HashMap<>();
-        final Saver userSaver = new SaverImpl(storage, printer);
-        final Extractor<String, User> userExtractor = new ExtractorImpl<>(storage, printer);
-        final Modifier userModifier = new ModifierImpl(printer, reader, phoneValidator, emailValidator);
+        final Saver<User> userSaver = new SaverImpl(storage, printer);
+        final Extractor<String, User> userExtractor = new ExtractorImpl(storage, printer);
+        final Modifier<User> userModifier = new ModifierImpl(printer, reader, phoneValidator, emailValidator);
         final Remover<String> userRemover = new RemoverImpl<>(storage, printer);
         int menuItem = 0;
         do {

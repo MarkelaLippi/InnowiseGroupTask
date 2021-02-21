@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Map;
 
-public class SaverImpl implements Saver {
+public class SaverImpl implements Saver<User> {
     private final Map<String, User> storage;
     private final Printer<String> printer;
 

@@ -11,7 +11,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CreatorImpl implements Creator {
+public class CreatorImpl implements Creator<User> {
     private final Printer<String> printer;
     private final Reader<String> reader;
     private final Validator<String> phoneValidator;
