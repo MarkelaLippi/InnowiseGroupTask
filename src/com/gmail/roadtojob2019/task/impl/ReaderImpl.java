@@ -5,10 +5,10 @@ import com.gmail.roadtojob2019.task.interfaces.Reader;
 
 import java.util.Scanner;
 
-public class ReaderImpl implements Reader {
-    private final Printer printer;
+public class ReaderImpl implements Reader<String> {
+    private final Printer<String> printer;
 
-    public ReaderImpl(Printer printer) {
+    public ReaderImpl(Printer<String> printer) {
         this.printer = printer;
     }
 
@@ -17,7 +17,7 @@ public class ReaderImpl implements Reader {
         final Scanner scanner = new Scanner(System.in);
         String result;
         do {
-            result=scanner.nextLine();
+            result= scanner.nextLine();
             if (result.equals("")){
                 printer.print("You didn't enter anything. Try again");
             }

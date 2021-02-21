@@ -10,9 +10,9 @@ import java.util.Map;
 
 public class ExtractorImpl<K, V> implements Extractor<K, V> {
     private Map<K, V> storage;
-    private final Printer printer;
+    private final Printer<String> printer;
 
-    public ExtractorImpl(Map<K, V> storage, Printer printer) {
+    public ExtractorImpl(Map<K, V> storage, Printer<String> printer) {
         this.storage = storage;
         this.printer = printer;
     }

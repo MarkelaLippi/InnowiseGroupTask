@@ -10,9 +10,9 @@ import java.util.Map;
 
 public class RemoverImpl<K,V> implements Remover<K> {
     private final Map<K,V> storage;
-    private final Printer printer;
+    private final Printer<String> printer;
 
-    public RemoverImpl(Map<K, V> storage, Printer printer) {
+    public RemoverImpl(Map<K, V> storage, Printer<String> printer) {
         this.storage = storage;
         this.printer = printer;
     }

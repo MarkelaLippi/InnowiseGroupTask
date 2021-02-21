@@ -9,17 +9,16 @@ import java.util.Map;
 
 public class Launcher {
     public static void main(String[] args) throws Exception {
-        final Printer printer = new PrinterImpl();
-        final Reader reader = new ReaderImpl(printer);
-        final Validator phoneValidator = new PhoneValidator();
-        final Validator emailValidator = new EmailValidator();
+        final Printer<String> printer = new PrinterImpl<>();
+        final Reader<String> reader = new ReaderImpl(printer);
+        final Validator<String> phoneValidator = new PhoneValidator();
+        final Validator<String> emailValidator = new EmailValidator();
         final Creator userCreator = new CreatorImpl(printer, reader, phoneValidator, emailValidator);
         final Map<String, User> storage = new HashMap<>();
         final Saver userSaver = new SaverImpl(storage, printer);
-        final ExtractorImpl<String, User> userExtractor = new ExtractorImpl<>(storage, printer);
+        final Extractor<String, User> userExtractor = new ExtractorImpl<>(storage, printer);
         final Modifier userModifier = new ModifierImpl(printer, reader, phoneValidator, emailValidator);
         final Remover<String> userRemover = new RemoverImpl<>(storage, printer);
-        boolean flag = true;
         int menuItem = 0;
         do {
             printer.print("");
@@ -78,17 +77,17 @@ public class Launcher {
                         printer.print("The user with the email " + email + " was not detected in the storage");
                         break;
                     }
-                    printer.print(extractedUser);
+                    printer.print(extractedUser.toString());
                 }
                 case 5 -> {
                     if (storage.isEmpty()) {
                         printer.print("Storage is empty. Create at least one user");
                     } else {
-                        printer.print(storage);
+                        printer.print(storage.toString());
                     }
                 }
             }
         }
-        while (flag);
+        while (true);
     }
 }

@@ -5,7 +5,7 @@ import com.gmail.roadtojob2019.task.interfaces.Validator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PhoneValidator implements Validator {
+public class PhoneValidator implements Validator<String> {
     @Override
     public boolean validate(String phone) {
         final Pattern pattern = Pattern.compile("375[0-9]{9}");

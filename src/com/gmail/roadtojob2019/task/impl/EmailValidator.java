@@ -5,7 +5,7 @@ import com.gmail.roadtojob2019.task.interfaces.Validator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class EmailValidator implements Validator {
+public class EmailValidator implements Validator<String> {
     @Override
     public boolean validate(String email) {
         final Pattern pattern = Pattern.compile(".+@.+\\..+");

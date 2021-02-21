@@ -11,9 +11,9 @@ import java.util.Map;
 
 public class SaverImpl implements Saver {
     private final Map<String, User> storage;
-    private final Printer printer;
+    private final Printer<String> printer;
 
-    public SaverImpl(Map<String, User> storage, Printer printer) {
+    public SaverImpl(Map<String, User> storage, Printer<String> printer) {
         this.storage = storage;
         this.printer = printer;
     }

@@ -1,5 +1,5 @@
 package com.gmail.roadtojob2019.task.interfaces;
 
-public interface Printer {
-    void print(Object message);
+public interface Printer<T> {
+    void print(T message);
 }

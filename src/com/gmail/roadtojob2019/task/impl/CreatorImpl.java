@@ -12,12 +12,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class CreatorImpl implements Creator {
-    private final Printer printer;
-    private final Reader reader;
-    private final Validator phoneValidator;
-    private final Validator emailValidator;
+    private final Printer<String> printer;
+    private final Reader<String> reader;
+    private final Validator<String> phoneValidator;
+    private final Validator<String> emailValidator;
 
-    public CreatorImpl(Printer printer, Reader reader, Validator phoneValidator, Validator emailValidator) {
+    public CreatorImpl(Printer<String> printer, Reader<String> reader, Validator<String> phoneValidator, Validator<String> emailValidator) {
         this.printer = printer;
         this.reader = reader;
         this.phoneValidator = phoneValidator;
