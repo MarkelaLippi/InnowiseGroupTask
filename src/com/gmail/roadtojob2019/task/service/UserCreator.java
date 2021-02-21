@@ -2,26 +2,21 @@ package com.gmail.roadtojob2019.task.service;
 
 import com.gmail.roadtojob2019.task.entity.Role;
 import com.gmail.roadtojob2019.task.entity.User;
+import com.gmail.roadtojob2019.task.interfaces.Creator;
 import com.gmail.roadtojob2019.task.interfaces.Printer;
 import com.gmail.roadtojob2019.task.interfaces.Reader;
-import com.gmail.roadtojob2019.task.interfaces.Creator;
-import com.gmail.roadtojob2019.task.interfaces.Validator;
 
-import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
-
-import static com.gmail.roadtojob2019.task.util.Pattern.*;
 
 public class UserCreator implements Creator<User> {
     private final Printer<String> printer;
     private final Reader<String> reader;
-    private final Validator<String,String> validator;
+    private final InputFilter filter;
 
-    public UserCreator(Printer<String> printer, Reader<String> reader, Validator<String, String> validator) {
+    public UserCreator(Printer<String> printer, Reader<String> reader, InputFilter filter) {
         this.printer = printer;
         this.reader = reader;
-        this.validator = validator;
+        this.filter = filter;
     }
 
     @Override
@@ -32,113 +27,18 @@ public class UserCreator implements Creator<User> {
         printer.print("Enter the user's surname");
         builder.withSurname(reader.read());
         printer.print("Enter the user's email");
-        builder.withEmail(getValidUserEmail());
+        builder.withEmail(filter.filterInputAndGetValidUserEmail());
         printer.print("Enter the user's phones (min=1, max=3)");
-        builder.withPhones(getValidUserPhones());
+        builder.withPhones(filter.filterInputAndGetValidUserPhones());
         printer.print("Enter the user's roles (min=1, max=2)");
         printer.print("Press '1' to select 'USER(l.1)'");
         printer.print("Press '2' to select 'CUSTOMER(l.1)'");
         printer.print("Press '3' to select 'ADMIN(l.2)'");
         printer.print("Press '4' to select 'PROVIDER(l.2)'");
         printer.print("Press '5' to select 'SUPER_ADMIN(l.3)'");
-        Set<Role> roles = getValidUserRoles();
+        Set<Role> roles = filter.filterInputAndGetValidUserRoles();
         builder.withRoles(roles);
         return builder.build();
-    }
-
-    private String getValidUserEmail() {
-        String email;
-        do {
-            email = reader.read();
-            if (!validator.validate(email, EMAIL_PATTERN)) {
-                printer.print("The email you entered has an incorrect format. Please try again.");
-            }
-        } while (!validator.validate(email, EMAIL_PATTERN));
-        return email;
-    }
-
-    private Set<String> getValidUserPhones() {
-        Set<String> phones = new HashSet<>();
-        String phone;
-        for (int n = 1; n <= 3; n++) {
-            do {
-                printer.print("Enter the phone № " + n);
-                phone = reader.read();
-                if (!validator.validate(phone, PHONE_PATTERN)) {
-                    printer.print("The phone number you entered has an incorrect format. Please try again.");
-                }
-            } while (!validator.validate(phone, PHONE_PATTERN));
-            phones.add(phone);
-            if (n < 3) {
-                if (abortAddingProcess()) break;
-            }
-        }
-        return phones;
-    }
-
-    private Set<Role> getValidUserRoles() {
-        Set<Role> roles = EnumSet.noneOf(Role.class);
-        for (int n = 1; n <= 2; n++) {
-            int roleNumber = 0;
-            Role role = null;
-            do {
-                printer.print("Enter the role № " + n);
-                try {
-                    roleNumber = Integer.parseInt(reader.read());
-                } catch (NumberFormatException e) {
-                    printer.print("The data you entered is in the wrong format.");
-                    continue;
-                }
-
-                try {
-                    role = switch (roleNumber) {
-                        case 1 -> Role.USER;
-                        case 2 -> Role.CUSTOMER;
-                        case 3 -> Role.ADMIN;
-                        case 4 -> Role.PROVIDER;
-                        case 5 -> Role.SUPER_ADMIN;
-                        default -> throw new IllegalStateException();
-                    };
-                } catch (IllegalStateException e) {
-                    printer.print("The number you entered is outside the allowed values. Enter a number from 1 to 5.");
-                    continue;
-                }
-
-                if (n == 2) {
-                    int checksum = 0;
-                    final Role firstUserRole = roles.stream()
-                            .findFirst()
-                            .get();
-                    checksum += firstUserRole.getLevel();
-                    checksum += role.getLevel();
-                    if (firstUserRole.getLevel() == role.getLevel() || checksum > 3) {
-                        printer.print("The role you entered is not level-compatible with the previous one. Please try again.");
-                        roleNumber = 0;
-                    }
-                }
-            } while (roleNumber < 1 || roleNumber > Role.values().length);
-
-            roles.add(role);
-
-            if (role.getLevel() == 3) {
-                break;
-            }
-
-            if (n == 1) {
-                if (abortAddingProcess()) {
-                    break;
-                }
-            }
-        }
-        return roles;
-    }
-
-    private boolean abortAddingProcess() {
-        printer.print("Do you want to add more? (YES/NO)");
-        printer.print("If 'YES', enter any character except 'n'");
-        printer.print("If 'NO', enter 'n'");
-        final String answer = reader.read();
-        return answer.equals("n");
     }
 }
 

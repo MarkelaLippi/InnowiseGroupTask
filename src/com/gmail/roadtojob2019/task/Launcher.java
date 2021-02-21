@@ -12,11 +12,12 @@ public class Launcher {
         final Printer<String> printer = new ConsolePrinter<>();
         final Reader<String> reader = new ConsoleReader(printer);
         final Validator<String, String> validator = new UserValidator();
-        final Creator<User> creator = new UserCreator(printer, reader, validator);
+        final InputFilter filter=new InputFilter(printer,reader,validator);
+        final Creator<User> creator = new UserCreator(printer, reader, filter);
         final Map<String, User> storage = new HashMap<>();
         final Saver<User> saver = new UserSaver(storage, printer);
         final Extractor<String, User> extractor = new UserExtractor(storage, printer);
-        final Modifier<User> modifier = new UserModifier(printer, reader, validator);
+        final Modifier<User> modifier = new UserModifier(printer, reader, filter);
         final Remover<String> remover = new UserRemover(storage, printer);
         int menuItem = 0;
         do {
