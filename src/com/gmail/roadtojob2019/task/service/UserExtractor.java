@@ -1,8 +1,8 @@
 package com.gmail.roadtojob2019.task.service;
 
 import com.gmail.roadtojob2019.task.entity.User;
-import com.gmail.roadtojob2019.task.interfaces.Extractor;
-import com.gmail.roadtojob2019.task.interfaces.Printer;
+import com.gmail.roadtojob2019.task.interfac.Extractor;
+import com.gmail.roadtojob2019.task.interfac.Printer;
 
 import java.io.FileInputStream;
 import java.io.IOException;

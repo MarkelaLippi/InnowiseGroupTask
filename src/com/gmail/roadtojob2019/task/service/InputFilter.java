@@ -1,9 +1,9 @@
 package com.gmail.roadtojob2019.task.service;
 
 import com.gmail.roadtojob2019.task.entity.Role;
-import com.gmail.roadtojob2019.task.interfaces.Printer;
-import com.gmail.roadtojob2019.task.interfaces.Reader;
-import com.gmail.roadtojob2019.task.interfaces.Validator;
+import com.gmail.roadtojob2019.task.interfac.Printer;
+import com.gmail.roadtojob2019.task.interfac.Reader;
+import com.gmail.roadtojob2019.task.interfac.Validator;
 
 import java.util.EnumSet;
 import java.util.HashSet;

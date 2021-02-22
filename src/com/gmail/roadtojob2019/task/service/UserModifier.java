@@ -1,9 +1,9 @@
 package com.gmail.roadtojob2019.task.service;
 
 import com.gmail.roadtojob2019.task.entity.User;
-import com.gmail.roadtojob2019.task.interfaces.Modifier;
-import com.gmail.roadtojob2019.task.interfaces.Printer;
-import com.gmail.roadtojob2019.task.interfaces.Reader;
+import com.gmail.roadtojob2019.task.interfac.Modifier;
+import com.gmail.roadtojob2019.task.interfac.Printer;
+import com.gmail.roadtojob2019.task.interfac.Reader;
 
 public class UserModifier implements Modifier<User> {
     private final Printer<String> printer;

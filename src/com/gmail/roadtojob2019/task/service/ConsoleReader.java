@@ -1,7 +1,7 @@
 package com.gmail.roadtojob2019.task.service;
 
-import com.gmail.roadtojob2019.task.interfaces.Printer;
-import com.gmail.roadtojob2019.task.interfaces.Reader;
+import com.gmail.roadtojob2019.task.interfac.Printer;
+import com.gmail.roadtojob2019.task.interfac.Reader;
 
 import java.util.Scanner;
 

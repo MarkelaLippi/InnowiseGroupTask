@@ -2,7 +2,7 @@ package com.gmail.roadtojob2019.task;
 
 import com.gmail.roadtojob2019.task.entity.User;
 import com.gmail.roadtojob2019.task.service.*;
-import com.gmail.roadtojob2019.task.interfaces.*;
+import com.gmail.roadtojob2019.task.interfac.*;
 
 import java.util.HashMap;
 import java.util.Map;
